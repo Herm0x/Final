@@ -19,13 +19,13 @@ namespace    // unnamed, anonymous namespace
   // represented by Epsilon.  Usually, this is a pretty small number, but since we are dealing with money (only two, maybe three
   // decimal places) we can be a bit more tolerant.  Two floating point values are considered equal if they are within EPSILON of
   // each other.
-  template< typename T, typename U >   requires std::is_floating_point_v<std::common_type_t<T, U> >
+  template< typename T,  typename U >   requires std::is_floating_point_v<std::common_type_t<T, U> >
   constexpr bool floating_point_is_equal( T const lhs,  U const rhs,  double const EPSILON = 1e-4 ) noexcept
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
       ///  Write the lines of code that compare two floating point numbers.  Return true when the left hand side (lhs) and the right
       ///  hand side (rhs) are within Epsilon, and false otherwise.
-      /// 
+      ///
       ///  See: "Floating point equality" in https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/
       ///
       ///  Hint:  Avoid writing code that looks like this:
@@ -36,7 +36,6 @@ namespace    // unnamed, anonymous namespace
       ///           else       return false;
       ///         do this instead:
       ///           return a < b;
-      return std::abs( lhs - rhs ) < EPSILON;
 
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
@@ -55,12 +54,6 @@ namespace    // unnamed, anonymous namespace
 // Default and Conversion Constructor
 Book::Book( std::string title,  std::string author,  std::string isbn,  double price )
 ///////////////////////// TO-DO (2) //////////////////////////////
-  
-  : _isbn{ std::move( isbn ) },           // Copy-move
-    _title { std::move( title ) },          // Uses constructor initialization list
-    _author { std::move( author ) },
-    _price { price }
-{}
 
 /////////////////////// END-TO-DO (2) ////////////////////////////
 
@@ -68,15 +61,8 @@ Book::Book( std::string title,  std::string author,  std::string isbn,  double p
 
 
 // Copy constructor
-Book::Book(Book const& other)
+Book::Book( Book const & other )
 ///////////////////////// TO-DO (3) //////////////////////////////
-    
-    // Initializes data members using the initializer list and taking the values of other Book
-    : _isbn { std::move( other._isbn ) },
-    _title { std::move( other._title ) },
-    _author { std::move( other._author ) }, 
-    _price{ other._price }
-{}
 
 /////////////////////// END-TO-DO (3) ////////////////////////////
 
@@ -84,10 +70,8 @@ Book::Book(Book const& other)
 
 
 // Move constructor
-Book::Book(Book&& other) noexcept
+Book::Book( Book && other ) noexcept
 ///////////////////////// TO-DO (4) //////////////////////////////
-
-= default;
 
 /////////////////////// END-TO-DO (4) ////////////////////////////
 
@@ -95,27 +79,17 @@ Book::Book(Book&& other) noexcept
 
 
 // Copy Assignment Operator
-Book& Book::operator=(Book const& rhs)&
+Book & Book::operator=( Book const & rhs ) &
 ///////////////////////// TO-DO (5) //////////////////////////////
-
-{
-    // Copying the values from rhs
-    _isbn = rhs._isbn;
-    _title = rhs._title;
-    _author = rhs._author;
-    _price = rhs._price;
-    return *this;
-}
 
 /////////////////////// END-TO-DO (5) ////////////////////////////
 
 
 
-// Move Assignment Operator
-Book& Book::operator=(Book&& rhs) & noexcept
-///////////////////////// TO-DO (6) //////////////////////////////
 
-= default;
+// Move Assignment Operator
+Book & Book::operator=( Book && rhs ) & noexcept
+///////////////////////// TO-DO (6) //////////////////////////////
 
 /////////////////////// END-TO-DO (6) ////////////////////////////
 
@@ -124,8 +98,6 @@ Book& Book::operator=(Book&& rhs) & noexcept
 // Destructor
 Book::~Book() noexcept
 ///////////////////////// TO-DO (7) //////////////////////////////
-
-= default;
 
 /////////////////////// END-TO-DO (7) ////////////////////////////
 
@@ -144,8 +116,6 @@ Book::~Book() noexcept
 std::string const & Book::isbn() const &
 {
   ///////////////////////// TO-DO (8) //////////////////////////////
-  
-  return _isbn;
 
   /////////////////////// END-TO-DO (8) ////////////////////////////
 }
@@ -157,8 +127,6 @@ std::string const & Book::isbn() const &
 std::string const & Book::title() const &
 {
   ///////////////////////// TO-DO (9) //////////////////////////////
-  
-  return _title;
 
   /////////////////////// END-TO-DO (9) ////////////////////////////
 }
@@ -170,8 +138,6 @@ std::string const & Book::title() const &
 std::string const & Book::author() const &
 {
   ///////////////////////// TO-DO (10) //////////////////////////////
-  
-  return _author;
 
   /////////////////////// END-TO-DO (10) ////////////////////////////
 }
@@ -182,8 +148,6 @@ std::string const & Book::author() const &
 double Book::price() const &
 {
   ///////////////////////// TO-DO (11) //////////////////////////////
-  
-  return _price;
 
   /////////////////////// END-TO-DO (11) ////////////////////////////
 }
@@ -195,8 +159,6 @@ double Book::price() const &
 std::string Book::isbn() &&
 {
   ///////////////////////// TO-DO (12) //////////////////////////////
-  
-  return std::move( _isbn );
 
   /////////////////////// END-TO-DO (12) ////////////////////////////
 }
@@ -208,8 +170,6 @@ std::string Book::isbn() &&
 std::string Book::title() &&
 {
   ///////////////////////// TO-DO (13) //////////////////////////////
-  
-  return std::move( _title );
 
   /////////////////////// END-TO-DO (13) ////////////////////////////
 }
@@ -221,8 +181,6 @@ std::string Book::title() &&
 std::string Book::author() &&
 {
   ///////////////////////// TO-DO (14) //////////////////////////////
-  
-  return std ::move ( _author );
 
   /////////////////////// END-TO-DO (14) ////////////////////////////
 }
@@ -242,9 +200,6 @@ std::string Book::author() &&
 Book & Book::isbn( std::string newIsbn ) &
 {
   ///////////////////////// TO-DO (15) //////////////////////////////
-  
-  _isbn = std::move( newIsbn ); // replaces variable name for _isbn
-  return *this; // returns updated Book oject
 
   /////////////////////// END-TO-DO (15) ////////////////////////////
 }
@@ -256,9 +211,6 @@ Book & Book::isbn( std::string newIsbn ) &
 Book & Book::title( std::string newTitle ) &
 {
   ///////////////////////// TO-DO (16) //////////////////////////////
-  
-   _title = std::move( newTitle ); // replaces variable name for _title
-  return *this; // returns updated Book object
 
   /////////////////////// END-TO-DO (16) ////////////////////////////
 }
@@ -270,9 +222,6 @@ Book & Book::title( std::string newTitle ) &
 Book & Book::author( std::string newAuthor ) &
 {
   ///////////////////////// TO-DO (17) //////////////////////////////
- 
-  _author = std::move( newAuthor ); // returns variable name for _author
-  return *this; // returns updated Book object
 
   /////////////////////// END-TO-DO (17) ////////////////////////////
 }
@@ -284,9 +233,6 @@ Book & Book::author( std::string newAuthor ) &
 Book & Book::price( double newPrice ) &
 {
   ///////////////////////// TO-DO (18) //////////////////////////////
-  
-  _price = newPrice; // returns variable name for _price
-   return *this; // returns updated Book object
 
   /////////////////////// END-TO-DO (18) ////////////////////////////
 }
@@ -303,46 +249,37 @@ Book & Book::price( double newPrice ) &
 *******************************************************************************/
 
 // operator<=>
-std::weak_ordering Book::operator<=>(const Book& rhs) const noexcept
+std::weak_ordering Book::operator<=>( const Book & rhs ) const noexcept
 {
-    // Design decision:  A very simple and convenient defaulted 3-way comparison operator
-    //                         auto operator<=>( const Book & ) const = default;
-    //                   in the class definition (header file) would get very close to what is needed and would allow both the <=> and
-    //                   the == operators defined here to be skipped.  The physical ordering of the attributes in the class definition
-    //                   would have to be changed (easy enough in this case) but the default directly compares floating point types
-    //                   (price) for equality, and that should be avoided, in general. For example, if x and y are of type double,
-    //                   then x < y is okay but x == y is not.  So these (operator<=> and operator==) explicit definitions are
-    //                   provided.
-    //
-    //                   Also, many ordering (sorting) algorithms, like those used in std::map and std::set, require at least a weak
-    //                   ordering of elements. operator<=> provides only a partial ordering when comparing floating point numbers.
-    //
-    // Weak order:       Objects that compare equal but are not substitutable (identical).  For example, since _price can be within
-    //                   EPSILON, Book("Title", "Author", "ISBN", 9.99999) and Book("Title", "Author", "ISBN", 10.00001) are equal but
-    //                   they are not identical.  If you ignore case when comparing strings, as another example, Book("Title") and
-    //                   Book("title") are equal but they are not identical.
-    //
-    // See std::weak_ordering    at https://en.cppreference.com/w/cpp/utility/compare/weak_ordering and
-    //     std::partial_ordering at https://en.cppreference.com/w/cpp/utility/compare/partial_ordering
-    //     The Three-Way Comparison Operator at  http://modernescpp.com/index.php/c-20-the-three-way-comparison-operator
-    //     Spaceship (Three way comparison) Operator Demystified https://youtu.be/S9ShnAFmiWM 
-    //
-    //
-    // Books are equal if all attributes are equal (or within Epsilon for floating point numbers, like price). Books are ordered
-    // (sorted) by ISBN, author, title, then price.
+  // Design decision:  A very simple and convenient defaulted 3-way comparison operator
+  //                         auto operator<=>( const Book & ) const = default;
+  //                   in the class definition (header file) would get very close to what is needed and would allow both the <=> and
+  //                   the == operators defined here to be skipped.  The physical ordering of the attributes in the class definition
+  //                   would have to be changed (easy enough in this case) but the default directly compares floating point types
+  //                   (price) for equality, and that should be avoided, in general. For example, if x and y are of type double,
+  //                   then x < y is okay but x == y is not.  So these (operator<=> and operator==) explicit definitions are
+  //                   provided.
+  //
+  //                   Also, many ordering (sorting) algorithms, like those used in std::map and std::set, require at least a weak
+  //                   ordering of elements. operator<=> provides only a partial ordering when comparing floating point numbers.
+  //
+  // Weak order:       Objects that compare equal but are not substitutable (identical).  For example, since _price can be within
+  //                   EPSILON, Book("Title", "Author", "ISBN", 9.99999) and Book("Title", "Author", "ISBN", 10.00001) are equal but
+  //                   they are not identical.  If you ignore case when comparing strings, as another example, Book("Title") and
+  //                   Book("title") are equal but they are not identical.
+  //
+  // See std::weak_ordering    at https://en.cppreference.com/w/cpp/utility/compare/weak_ordering and
+  //     std::partial_ordering at https://en.cppreference.com/w/cpp/utility/compare/partial_ordering
+  //     The Three-Way Comparison Operator at  http://modernescpp.com/index.php/c-20-the-three-way-comparison-operator
+  //     Spaceship (Three way comparison) Operator Demystified https://youtu.be/S9ShnAFmiWM
+  //
+  //
+  // Books are equal if all attributes are equal (or within Epsilon for floating point numbers, like price). Books are ordered
+  // (sorted) by ISBN, author, title, then price.
 
-    ///////////////////////// TO-DO (19) //////////////////////////////
-    
-    if( auto result = _isbn <=> rhs._isbn; result != 0 ) {return result;}
-    if( auto result = _author <=> rhs._author; result != 0 ) {return result;}
-    if( auto result = _title <=> rhs._title; result != 0 ) {return result;}
+  ///////////////////////// TO-DO (19) //////////////////////////////
 
-    if ( floating_point_is_equal(_price, rhs._price) ) {return std::weak_ordering::equivalent;}
-    if ( _price < rhs._price ) {return std::weak_ordering::less;}
-    else
-        {return std::weak_ordering::greater;}
-
-    /////////////////////// END-TO-DO (19) ////////////////////////////
+  /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 
 
@@ -355,12 +292,6 @@ bool Book::operator==( const Book & rhs ) const noexcept
   // and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-    
-    // This will return true if isbn, title, author, and price are equal, else it'll return false.
-    return floating_point_is_equal( _price, rhs._price )
-        && ( _title == rhs._title ) 
-        && ( _author == rhs._author )
-        && ( _isbn == rhs._isbn );
 
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
@@ -396,20 +327,6 @@ std::istream & operator>>( std::istream & stream, Book & book )
     /// Hint:  Use std::quoted to read and write quoted strings.  See
     ///        1) https://en.cppreference.com/w/cpp/io/manip/quoted
     ///        2) https://www.youtube.com/watch?v=Mu-GUZuU31A
-    
-    Book workingItem;
-    char delimiter = '\0';
-
-    if ( stream >> std::ws >> std::quoted( workingItem._isbn ) && stream >> std::ws >> delimiter && delimiter == ',' && 
-        stream >> std::ws >> std::quoted( workingItem._title ) && stream >> std::ws >> delimiter && delimiter == ',' &&
-        stream >> std::ws >> std::quoted( workingItem._author ) && stream >> std::ws >> delimiter && delimiter == ',' && 
-        stream >> std::ws >> ( workingItem._price ) )
-    {
-        book = std::move(workingItem);
-    }
-    else
-        stream.setstate(std::ios::failbit);
-    return stream; 
 
   /////////////////////// END-TO-DO (21) ////////////////////////////
 }
@@ -421,15 +338,7 @@ std::istream & operator>>( std::istream & stream, Book & book )
 std::ostream & operator<<( std::ostream & stream, const Book & book )
 {
   ///////////////////////// TO-DO (22) //////////////////////////////
-    
     /// This function should be symmetrical with operator>> above.  Read what your write, and write what you read
-    const std::string delimiter = ",  ";
-
-    stream << std::quoted(book.isbn()) << delimiter
-           << std::quoted(book.title()) << delimiter
-           << std::quoted(book.author()) << delimiter
-           << book.price();
-    return stream;
 
   /////////////////////// END-TO-DO (22) ////////////////////////////
 }
