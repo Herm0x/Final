@@ -60,7 +60,12 @@ struct insert_at_back_of_sll
     ///////////////////////// TO-DO (3) //////////////////////////////
       /// Write the lines of code to insert "book" at the back of "my_sll". Since the SLL has no size() function and no tail
       /// pointer, you must walk the list looking for the last node. Hint:  Do not attempt to insert after "my_sll.end()"
-    my_sll.insert_after(before_back, book);
+    std::forward_list<Book>::iterator it = my_sll.before_begin();
+    for (auto & i : my_sll)
+    {
+      ++it;
+    }
+    my_sll.insert_after(it, book);
     /////////////////////// END-TO-DO (3) ////////////////////////////
   }
 
@@ -125,15 +130,15 @@ struct insert_into_bst
   {
     ///////////////////////// TO-DO (7) //////////////////////////////
       /// Write the lines of code to insert the key (book's ISBN) and value ("book") pair into "my_bst".
-    std::string ISBN = ""; // kindly insert the variable for book's ISBN from the "book.hpp" file. Since I do not have it, I cannot do it without the file.
-        if(my_bst.find(ISBN) == my_bst.end()) {
-            // case when the ISBN is not present in the BST.
-            my_bst[ISBN] = book;
-        }
-        else {
-            // case when the ISBN value is already present in the BST, so we don't have to rework it (add it again into it).
-            return;
-        }
+    std::string isbn = "";
+    if(my_bst.find(isbn) == my_bst.end()) 
+    {
+      my_bst[isbn] = book;
+    }
+    else 
+    {
+      return;
+    }
     /////////////////////// END-TO-DO (7) ////////////////////////////
   }
 
@@ -150,10 +155,10 @@ struct insert_into_hash_table
   {
     ///////////////////////// TO-DO (8) //////////////////////////////
       /// Write the lines of code to insert the key (book's ISBN) and value ("book") pair into "my_hash_table".
-    std::string ISBN = ""; // kindly insert the variable for book's ISBN from the "book.hpp" file. Since I do not have it, I cannot do it without the file.
-    if(my_hash_table.find(ISBN) == my_hash_table.end()) 
+    std::string isbn = ""; 
+    if(my_hash_table.find(isbn) == my_hash_table.end()) 
     {
-      my_hash_table[ISBN] = book;
+      my_hash_table[isbn] = book;
     }
     else 
     {
@@ -186,7 +191,7 @@ struct remove_from_back_of_vector
       /// empty data structure is a logic error.  Include code to avoid that.
     if(my_vector.empty()) 
     {
-      throw std::out_of_range("vector is empty");
+      std::out_of_range("Logic error");
     }
     else
     {
@@ -210,7 +215,7 @@ struct remove_from_back_of_dll
       /// empty data structure is a logic error.  Include code to avoid that.
     if (my_dll.empty()) 
     {
-      throw std::out_of_range("list is empty");
+      std::out_of_range("Logic error");
     }
     else
     {
@@ -243,12 +248,26 @@ struct remove_from_back_of_sll
       ///        o) Once current is equal to end(), then remove the node after predecessor
     if (my_sll.empty()) 
     {
-      throw std::out_of_range("list is empty");
+      return;
     }
-    else
+    auto predecessor = my_sll.before_begin();
+    auto current = my_sll.begin();
+    
+    auto size = 0;
+    auto i = 1;
+
+    while (current != my_sll.end())
     {
-      my_sll.erase_after(my_sll.begin() + my_sll.size() - 1);
+      current++;
+      size++;
     }
+    
+    while (i < size)
+    {
+      predecessor++;
+      i++;
+    }
+    my_sll.erase_after(predecessor);
     /////////////////////// END-TO-DO (11) ////////////////////////////
   }
 
@@ -267,11 +286,11 @@ struct remove_from_front_of_vector
       /// empty data structure is a logic error.  Include code to avoid that.
     if (my_vector.empty()) 
     {
-      throw std::out_of_range("vector is empty");
+      std::out_of_range("Logic error");
     }
     else
     {
-      my_vector.erase(0);
+      my_vector.erase(my_vector.begin());
     }
     /////////////////////// END-TO-DO (12) ////////////////////////////
   }
@@ -289,14 +308,14 @@ struct remove_from_front_of_dll
     ///////////////////////// TO-DO (13) //////////////////////////////
       /// Write the lines of code to remove the book at the front of "my_dll". Remember, attempting to remove an element from an
       /// empty data structure is a logic error.  Include code to avoid that.
-    if (my_dll.empty()) 
-    {
-      throw std::out_of_range("list is empty");
-    }
-    else
-    {
-      my_dll.pop_front();
-    }
+      if (my_dll.empty()) 
+      {
+        std::out_of_range("Logic error");
+      }
+      else
+      {
+        my_dll.pop_front();
+      }
     /////////////////////// END-TO-DO (13) ////////////////////////////
   }
 
@@ -315,7 +334,7 @@ struct remove_from_front_of_sll
       /// empty data structure is a logic error.  Include code to avoid that.
     if (my_sll.empty()) 
     {
-      throw std::out_of_range("list is empty");
+      std::out_of_range("Logic error");
     }
     else
     {
@@ -338,7 +357,14 @@ struct remove_from_bst
     ///////////////////////// TO-DO (15) //////////////////////////////
       /// Write the lines of code to remove the book from "my_bst" that has an ISBN matching "book". Remember, attempting to remove
       /// an element from an empty data structure is a logic error.  Include code to avoid that.
-    my_bst.erase("book");
+    if (my_bst.size() == 0)
+    {
+      std::out_of_range("Logic error");
+    }
+    else
+    {
+      my_bst.erase(book.isbn());
+    }
     /////////////////////// END-TO-DO (15) ////////////////////////////
   }
 
@@ -356,7 +382,14 @@ struct remove_from_hash_table
     ///////////////////////// TO-DO (16) //////////////////////////////
       /// Write the lines of code to remove the book from "my_hash_table" that has an ISBN matching "book". Remember, attempting to
       /// remove an element from an empty data structure is a logic error.  Include code to avoid that.
-    my_hash_table.erase("book");
+    if (my_hash_table.size() == 0)
+    {
+      std::out_of_range("Logic error");
+    }
+    else
+    {    
+      my_hash_table.erase(book.isbn());
+    }
     /////////////////////// END-TO-DO (16) ////////////////////////////
   }
 
@@ -383,14 +416,14 @@ struct search_within_vector
     ///////////////////////// TO-DO (17) //////////////////////////////
       /// Write the lines of code to search for the Book within "my_vector" with an ISBN matching "target_isbn".  Return a pointer
       /// to that book immediately upon finding it, or a null pointer when you know the book is not in the container.
-    for (Book& b: my_vector)
+    for (auto & book: my_vector)
     {
-      if (target_isbn == b.isbn)
+      if (target_isbn == book.isbn())
       {
-        return b;
+        return & book;
       }
     }
-    return NULL;
+    return nullptr;
     /////////////////////// END-TO-DO (17) ////////////////////////////
   }
 
@@ -409,14 +442,14 @@ struct search_within_dll
     ///////////////////////// TO-DO (18) //////////////////////////////
       /// Write the lines of code to search for the Book within "my_dll" with an ISBN matching "target_isbn".  Return a pointer to
       /// that book immediately upon finding it, or a null pointer when you know the book is not in the container.
-    for (Book &b: my_dll)
+    for (auto & book: my_dll)
     {
-      if (target_isbn == b.isbn)
+      if (target_isbn == book.isbn())
       {
-        return b;
+        return & book;
       }
     }
-    return NULL;
+    return nullptr;
     /////////////////////// END-TO-DO (18) ////////////////////////////
   }
 
@@ -435,7 +468,14 @@ struct search_within_sll
     ///////////////////////// TO-DO (19) //////////////////////////////
       /// Write the lines of code to search for the Book within "my_sll" with an ISBN matching "target_isbn".  Return a pointer to
       /// that book immediately upon finding it, or a null pointer when you know the book is not in the container.
-
+    for (auto & book: my_sll)
+    {
+      if (target_isbn == book.isbn())
+      {
+        return & book;
+      }
+    }
+    return nullptr;
     /////////////////////// END-TO-DO (19) ////////////////////////////
   }
 
@@ -455,11 +495,11 @@ struct search_within_bst
       /// Write the lines of code to search for the Book within "my_bst" with an ISBN matching "target_isbn".  Return a pointer to
       /// that book immediately upon finding it, or a null pointer when you know the book is not in the container.
       /// Note: do not implement a linear search, i.e., do not loop from beginning to end.
-    if (my_hash_table.find(target_isbn) != my_hash_table.end())
+    if (my_bst.find(target_isbn) != my_bst.end())
     {
-      return &my_hash_table[target_isbn];
+      return & my_bst[target_isbn];
     }
-    return NULL;
+    return nullptr;
     /////////////////////// END-TO-DO (20) ////////////////////////////
   }
 
@@ -479,20 +519,15 @@ struct search_within_hash_table
       /// Write the lines of code to search for the Book within "my_hash_table" with an ISBN matching "target_isbn".  Return a
       /// pointer to that book immediately upon finding it, or a null pointer when you know the book is not in the container.
       /// Note: do not implement a linear search, i.e., do not loop from beginning to end.
-    /*auto it = my_hash_table.find(target_isbn);
-        if(it == my_hash_table.end())
-        {
-          return nullptr;
-        }
-        else
-        {
-          return &(it->second);
-        }*/
-    if (my_hash_table.find(target_isbn) != my_hash_table.end())
+    auto it = my_hash_table.find(target_isbn);
+    if (it == my_hash_table.end())
     {
-      return &my_hash_table[target_isbn];  
+      return nullptr;
     }
-    return NULL;    
+    else
+    {
+      return & (it-> second);
+    }  
     /////////////////////// END-TO-DO (21) ////////////////////////////
   }
 
